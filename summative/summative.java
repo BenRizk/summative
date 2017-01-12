@@ -5,7 +5,8 @@ import java.io.IOException;
 public class summative {
 	
 		public static void main(String[] args) {
-			Seat_Info[][] plane = new Seat_Info[7][10]; 
+			Seat_Info[][] plane = new Seat_Info[7][11]; 
+			fill(plane);
 			//using for creating txt documents
 			String filePath[] = new String[7];
 			 filePath[0] = "scr//plane1.txt";
@@ -58,7 +59,7 @@ public class summative {
 			num = In.getInt();
 			//show which seats are available
 			System.out.println("The seat(s): ");
-			for(int i = 0; i <= 9; i++)
+			for(int i = 1; i <= plane.length; i++)
 			{
 				if(plane[num][i].full == false)
 				{
@@ -107,6 +108,17 @@ public class summative {
 			saveFile(plane, num, num2, filePath, plane[num][num2].name, plane[num][num2].age, plane[num][num2].address, plane[num][num2].phoneNumber, plane[num][num2].email );
 			System.out.println("The seat is now booked");
 			
+			}
+		}
+		
+		public static void fill(Seat_Info[][] plane)
+		{
+			for(int i = 0; i <= 6; i++)
+			{
+				for(int j = 0; j <= 9; j++)
+				{
+					plane[i][j] = new Seat_Info("", 0, "", 0, "", false);
+				}
 			}
 		}
 		
