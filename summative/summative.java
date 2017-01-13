@@ -5,7 +5,8 @@ import java.io.IOException;
 public class summative {
 	
 		public static void main(String[] args) {
-			Seat_Info[][] plane = new Seat_Info[7][10]; 
+			Seat_Info[][] plane = new Seat_Info[7][11]; 
+			fill(plane);
 			//using for creating txt documents
 			String filePath[] = new String[7];
 			 filePath[0] = "scr//plane1.txt";
@@ -37,54 +38,72 @@ public class summative {
 				cancelFlight(plane);
 			}
 		
-			if(input.equals("get info"));
+			/*
+			if(input.equals("get info"));			//Problem: Goes to this method when input is wrong
 			{
 				getInfo(plane);
 			}
+			*/
 			
 			if(input.equals("print manifest"))
 			{
 				printManifest(plane);
 			}
+		
 		}while(!input.equals("end"));
 	System.out.println("Program ended");		
 	}
 
 		public static void booking(Seat_Info[][] plane, String[] filePath)
 		{
-			//ask for booking
+			
 			int num;
+		do{
+			//ask for booking
 			System.out.println("Which flight would you like to book");
 			num = In.getInt();
 			//show which seats are available
-			System.out.println("The seat(s): ");
-			for(int i = 0; i <= 9; i++)
+			if(num > 7)
 			{
-				if(plane[num][i].full == false)
+				System.out.println();
+				System.out.println("this plane doesn't exist");
+				System.out.println();
+			}
+			if(num <= 7)
+			{
+				System.out.println("The seat(s): ");
+				for(int i = 1; i <= 9; i++)
 				{
+					if(plane[num][i].full == false)
+					{
 					System.out.print(i);
-					System.out.print("is avalible");
+					System.out.print(" is avalible");
 					System.out.println();
-				}
-				if(plane[num][i].full == true)
-				{
+					}
+					if(plane[num][i].full == true)
+					{
 					System.out.print(i);
-					System.out.print("is not avalible");
+					System.out.print(" is not avalible");
 					System.out.println();
+					}
 				}
 			}
-			
+		}while(num > 7 || num == 0);		
+			int num2;
+		if(num <= 7 && num != 0)
+		{
+		do{															
 			//ask which seat is being booked
-			System.out.println("Which seat would you like to book");
-			int num2 = In.getInt();
-			
-			if(plane[num][num2].full = true)
+			System.out.println("Which seat would you like to book(Enter 0 to return to main menu)");
+			num2 = In.getInt();	
+			//seat is taken
+			if(plane[num][num2].full == true && num2 != 0)
 			{
 			System.out.println("This seat is taken");	
 			}
 			
 			//if seat is open ask for information
-			if(plane[num][num2].full = false)
+			if(plane[num][num2].full == false && num2 != 0)
 			{
 			plane[num][num2].full = true;
 			System.out.println("Please enter the required information");
@@ -104,9 +123,21 @@ public class summative {
 			System.out.print("phone #: ");
 			plane[num][num2].phoneNumber = In.getInt();
 			//create a txt file to print
-			saveFile(plane, num, num2, filePath, plane[num][num2].name, plane[num][num2].age, plane[num][num2].address, plane[num][num2].phoneNumber, plane[num][num2].email );
+			//saveFile(plane, num, num2, filePath, plane[num][num2].name, plane[num][num2].age, plane[num][num2].address, plane[num][num2].phoneNumber, plane[num][num2].email );
 			System.out.println("The seat is now booked");
-			
+			}
+		}while(plane[num][num2].full == true || num2 != 0);	
+	}//end of if statement
+	}//end of booking
+		
+		public static void fill(Seat_Info[][] plane)
+		{
+			for(int i = 0; i <= 6; i++)
+			{
+				for(int j = 0; j <= 9; j++)
+				{
+					plane[i][j] = new Seat_Info("", 0, "", 0, "", false);
+				}
 			}
 		}
 		
@@ -151,19 +182,20 @@ public class summative {
 			System.out.println("Please enter the flight that you would like to cancel");
 			int num = In.getInt();
 			//get contact info
-			for(int a = 0; a < 7; a++)
+			for(int a = 1; a < 10; a++)
 			{
-				if(plane[num][a].full = true)
+				if(plane[num][a].full == true)
 				{
 					System.out.println("Name: " + plane[num][a].name);
 					System.out.println("Address: " + plane[num][a].address);
 					System.out.println("Age: " + plane[num][a].age);
 					System.out.println("phone number: " + plane[num][a].phoneNumber);
 					System.out.println("email: " + plane[num][a].email);
+					System.out.println();
 				}
 			}
 			//cancel the flight
-			for(int i = 0; i < 7; i++)
+			for(int i = 0; i < 10; i++)
 			{
 				wipe(plane, num, i);
 			}
