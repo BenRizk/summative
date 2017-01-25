@@ -1,12 +1,14 @@
 package summative;
 
+
 import java.io.IOException;
 
 public class summative {
 	
 		public static void main(String[] args) {
 			Seat_Info[][] plane = new Seat_Info[7][11]; 
-			fill(plane);
+			fill(plane); //this method fills all nulls so the array can be accessed
+			
 			//using for creating txt documents
 			String filePath[] = new String[8];
 			 //the reason the array is off by one is so the loop can 
@@ -18,7 +20,9 @@ public class summative {
 			 filePath[4] = "src//plane5.txt";							
 			 filePath[5] = "src//plane6.txt";
 			 filePath[6] = "src//plane7.txt";
-			 
+			 filePath[7] = "src//manifest.txt";
+			 //This method a fills the array with any previous data in the txt document
+			 //readTxt(plane, filePath);
 		
 			 String input;
 			 //beginning of program
@@ -27,7 +31,7 @@ public class summative {
 			System.out.println("1.Are you looking to BOOK 2.CANCEL a RESERVATION 3.CANCEL a FLIGHT 4.GET seat INFO or 5.PRINT MANIFEST");
 			System.out.println("Enter end to end the program");
 			input = In.getString();
-			input.toLowerCase();
+			input.toLowerCase();	//set it to lower case to prevent capital errors
 			//book a seat
 			if(input.equals("book") || input.equals("1"))
 			{
@@ -41,21 +45,21 @@ public class summative {
 			//cancel a flight
 			if(input.equals("cancel flight") || input.equals("3"))
 			{
-				cancelFlight(plane);
+				cancelFlight(plane, filePath);
 			}
 		
+			//get seat info
+		    if(input.equals("get info") || input.equals("4"))			
+			{
+				getInfo(plane);
+			}
+			
 			//print manifest(sort and print)
 			if(input.equals("print manifest") || input.equals("5"))
 			{
 				printManifest(plane, filePath);
 			}
-			//get seat info
-			/*
-			if(input.equals("seat info") || input.equals("4"));			
-			{
-				getInfo(plane);
-			}
-			*/
+			
 		}while(!input.equals("end"));	//end when end is entered
 	System.out.println("Program ended");	
 	
@@ -79,7 +83,7 @@ public class summative {
 			if(num <= 7)
 			{
 				System.out.println("The seat(s): ");
-				for(int i = 1; i <= 9; i++)
+				for(int i = 1; i <= 10; i++)
 				{
 					if(plane[num][i].full == false)
 					{
@@ -95,7 +99,7 @@ public class summative {
 					}
 				}
 			}
-		}while(num > 7 || num == 0);		
+		}while(num > 7 || num == 0); //do while statement to catch any errors		
 			int num2;
 		if(num <= 7 && num != 0)
 		{
@@ -133,7 +137,7 @@ public class summative {
 			saveFile(plane, num, num2, filePath);
 			System.out.println("The seat is now booked");
 			}
-		}while(plane[num][num2].full == true || num2 != 0);	
+		}while(plane[num][num2].full == true || num2 != 0);	//made to end the method "booking"
 	}//end of if statement
 	}//end of booking
 		
@@ -141,7 +145,7 @@ public class summative {
 		{
 			for(int i = 0; i <= 6; i++)
 			{
-				for(int j = 0; j <= 9; j++)
+				for(int j = 0; j <= 10; j++)
 				{
 					plane[i][j] = new Seat_Info("", 0, "", "", "", false);
 				}
@@ -183,7 +187,7 @@ public class summative {
 									{
 										wipe(plane, a, b);
 										System.out.println("This seat has been cancelled");
-										deleteFile(plane, a, b, filePath);
+										saveFile(plane, a, b, filePath);
 									}	
 								}
 							}
@@ -193,7 +197,7 @@ public class summative {
 			}
 		}
 		
-		public static void cancelFlight(Seat_Info[][] plane)
+		public static void cancelFlight(Seat_Info[][] plane, String[] filePath)
 		{
 			//ask which plane should be canceled
 			System.out.println("Please enter the flight you would like to cancel");
@@ -215,6 +219,7 @@ public class summative {
 			for(int i = 0; i < 10; i++)
 			{
 				wipe(plane, num, i);
+				saveFile(plane, num, i, filePath);
 			}
 		}
 		
@@ -242,8 +247,8 @@ public class summative {
 			}
 		}
 
-		public static void printManifest(Seat_Info[][] plane, String[] filePath)		//have it search the txt document because 
-		{																				// that info stays
+		public static void printManifest(Seat_Info[][] plane, String[] filePath)		//have it print to the txt document 
+		{																			
 			//ask which sort they want
 			System.out.println("Would you like to print numerically or alphabetically?");
 			String input = In.getString();
@@ -252,14 +257,24 @@ public class summative {
 			{
 				System.out.println("Which flight would you like to print?");
 				int num = In.getInt();
-				for(int i = 0; i < 10; i++)
-				{
-					System.out.println("name: " + plane[num][i].name);
-					System.out.println("age: " + plane[num][i].age);
-					System.out.println("address: " + plane[num][i].address);
-					System.out.println("phone number: " + plane[num][i].phoneNumber);
-					System.out.println("email: " + plane[num][i].email);;
-				}
+				
+					IO.openOutputFile(filePath[7]);	// filepath[7] is the filpath to a specific document		
+					
+					for(int i = 1; i <= 10; i++)
+					{
+						if(plane[num][i].full == true)
+						{
+						IO.println("Seat: " + i);
+						IO.println("Name: " + plane[num][i].name);			
+						IO.println("Age: " + plane[num][i].age);			
+						IO.println("Address: " + plane[num][i].address);			
+						IO.println("Phone #: " +plane[num][i].phoneNumber);			
+						IO.println("Email: " + plane[num][i].email);
+						IO.println("");
+						}
+					}
+					IO.closeOutputFile();
+				
 			}
 			//sort alphabetically
 			if(input.equals("alphabetically"))
@@ -268,7 +283,7 @@ public class summative {
 				int num = In.getInt();
 			
 			//sort the array alphabetically
-				for (int top = 1; top < plane.length; top++)
+				for (int top = 1; top <= 10; top++)
 				{
 				Seat_Info item = plane[num][top]; // temporary storage of item
 				int i = top;
@@ -282,21 +297,22 @@ public class summative {
 					plane[num][i] = item; // put sorted item in open location
 				}
 				//print the plane info
-				IO.createOutputFile(filePath[num]);
-				for(int i = 0; i < 10; i++)
-				{
-					IO.println("Seat: " + i);
-					IO.println("Name: " + plane[num][i].name);		
-					IO.println("Age: " +plane[num][i].age);			
-					IO.println("Address: " + plane[num][i].address);			
-					IO.println("Phone #: " + plane[num][i].phoneNumber);			
-					IO.println("Email: " + plane[num][i].email);		
-				
+					IO.openOutputFile(filePath[7]);			
+					
+					for(int i = 1; i <= 10; i++)
+					{
+						if(plane[num][i].full == true)
+						{
+						IO.println("Seat: " + i);
+						IO.println("Name: " + plane[num][i].name);			
+						IO.println("Age: " + plane[num][i].age);			
+						IO.println("Address: " + plane[num][i].address);			
+						IO.println("Phone #: " +plane[num][i].phoneNumber);			
+						IO.println("Email: " + plane[num][i].email);
+						IO.println("");
+						}
+					}
 					IO.closeOutputFile();
-					
-					IO.openInputFile(filePath[num]);
-					
-				}
 			}	
 		}//end of print manifest
 		
@@ -317,7 +333,7 @@ public class summative {
 			
 			IO.openOutputFile(filePath[(planeNum-1)]);	// the reason it is subtracted by one is to solve a problem at the beginning		
 			
-			for(int i = 1; i < 9; i++)
+			for(int i = 1; i <= 10; i++)
 			{
 				if(plane[planeNum][i].full == true)
 				{
@@ -346,7 +362,85 @@ public class summative {
 		
 			IO.closeOutputFile();
 			
-			IO.openInputFile(filePath[a]);
+			;
+		}
+
+		public static void readTxt(Seat_Info[][] plane, String[] filePath)
+		{
+			//this method is to read the txt documents before the program starts and try to store the data from them to the program
+			
+			for(int i = 0; i <= 6; i++)//for loop for plane number
+			{
+				IO.openOutputFile(filePath[i]);
+				String hold = "ok";
+			 do{
+					for(int k = 1; k <= 10; k++)// for loop for the amount of potential seats on a plane needed to be read
+					{
+						for(int j = 1; j <= 6; j++)//for loop for the amount of times needed to read all info from one seat
+						{
+							try {
+								String n = IO.readLine();
+								hold = n;
+									if(!n.equals(""))
+									{
+										checkRead(plane, j, i,  n);
+									}	
+								} 
+								catch (IOException e) {
+									// TODO Auto-generated catch block
+									//e.printStackTrace();
+								}
+						}
+					}
+				}while(!hold.equals(""));
+			IO.closeOutputFile();
+			}
+		}
+
+		public static void checkRead(Seat_Info[][] plane, int a, int i, String n)
+		{
+			//This method works with readTxt to try and convert the info fromt he txt document to the program
+			int seatNum = 1;
+			if(a == 1)
+			{
+				String temp = n.substring(6);
+				seatNum = Integer.parseInt(temp);
+			}
+		
+			if(a == 2)
+			{
+				String temp = n.substring(6);
+				plane[i][seatNum].name = temp;
+			}
+			
+			if(a == 3)
+			{
+				String temp = n.substring(5);
+				int age = Integer.parseInt(temp);
+				plane[i][seatNum].age = age;
+			}
+		
+			if(a == 4)
+			{
+				String temp = n.substring(9);
+				plane[i][seatNum].address = temp;
+			}
+			
+			if(a == 5)
+			{
+				String temp = n.substring(9);
+				plane[i][seatNum].phoneNumber = temp;
+			}
+			
+			if(a == 6)
+			{
+				String temp = n.substring(7);
+				plane[i][seatNum].email = temp;
+				plane[i][seatNum].full = true;
+			}
+			
+			
+			
 		}
 }//end of class
 

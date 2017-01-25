@@ -1,0 +1,93 @@
+Hello and welcome to:
+
+------------------------------------------
+Fly-By-Night Airline Booking Program Guide
+------------------------------------------
+
+When opening the program you will be shown a menu
+this menu will help you navigate the features of this program.
+
+To access any of the features you will need to enter either the number they are listed as
+or you can type in the capitalized words to access those features.
+
+--------
+BOOKING:
+--------
+This seciton of the program will allow you to book a seat in any plane 
+
+Steps:
+1.In the booking function it will ask you for a plane number
+enter the number assigned to the plane you want to book.
+
+2.You will be given a list of seats that are avalible in that plane
+enter the seat number the customer wants to book.
+
+3.The program will then ask you for the customers info 
+Ask the customer for the required information to complete the booking .
+
+4. If the customer wants another seat repeat step 3.
+If the customer is satisfied with thier seat 
+return to the main menu by entering "0". 
+
+-----------------
+Cancelling a Seat
+-----------------
+This section of the program will allow you to cancel an already reserved seat
+
+Steps:
+1.First the program will ask you to enter information, 
+ask the customer for the required information. 
+
+2.After entering the info if the program responds with 
+"this seat has been cancelled" then you have successfully cancelled the flight.
+If it hasn't responded, then thw seat has not been cancelled due to incorrect info.
+
+3.After attempting anything in this section no matter what it will return to the main menu.
+
+-------------------
+Cancelling a Flight 
+-------------------
+This section will allow you to cancel an entire flight if neccessary 
+
+Steps:
+1. The program will ask you to enter which flight you would like cancelled
+enter the flight you need to cancel.
+
+2. The program will then give you a list of all attendents on that flight 
+and the info needed to contact them to inform them their trip was cancelled.
+
+3.You will be sent back to the main menu.
+
+-----------------
+Getting Seat Info
+-----------------
+This seciton will allow you to get the information on any seat
+
+Steps:
+1.First the program will ask you for the plane number,
+enter the number of the plane the required seat is in.
+Then it will ask you for the seat number, enter the seat number you need to access.
+
+2. You will be given the info of the seat you want to access, 
+then you will be sent back to the main menu. 
+
+--------------
+Print Manifest
+--------------
+This section will allow you to print out a sorted document of a flight
+
+Steps:
+1.First The program will then ask how you want it sorted
+enter the way you want it sorted.
+
+2. Then it will ask you for the plane you want to print
+enter the number of the plane you want to print.
+
+3.You can then find a txt document containing the sorted flight.
+
+4.You will then be sent back to the main menu   
+
+---
+End
+---
+By entering end you will end the program
